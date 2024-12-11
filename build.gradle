@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group = 'minesweeper'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.checkerframework/checker-qual
+    implementation group: 'org.checkerframework', name: 'checker-qual', version: '3.46.0'
+    implementation files("libs/core.jar")
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// ./gradle run -P100
+task run(type: JavaExec) {
+    main = 'minesweeper.App'
+    classpath = sourceSets.main.runtimeClasspath
+    if(gradle.getStartParameter().projectProperties.keySet().size()>0){
+        args = [gradle.getStartParameter().projectProperties.keySet()[0]]
+    }
+}
